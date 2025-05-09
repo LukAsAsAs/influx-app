@@ -1,0 +1,32 @@
+services:
+  influxdb:
+    image: influxdb:2.7
+    ports:
+      - "8086:8086"
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=admin
+      - DOCKER_INFLUXDB_INIT_PASSWORD=admin123
+      - DOCKER_INFLUXDB_INIT_ORG=my-org
+      - DOCKER_INFLUXDB_INIT_BUCKET=my-bucket
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=my-token
+    volumes:
+      - ./data/influxdb_data:/var/lib/influxdb2
+  app:
+    build: ./app
+    depends_on:
+      - influxdb
+    environment:
+      - INFLUXDB_URL=http://influxdb:8086
+      - INFLUXDB_TOKEN=my-token
+      - INFLUXDB_ORG=my-org
+      - INFLUXDB_BUCKET=my-bucket
+      - JUPYTER_ENABLE_LAB=yes
+      - JUPYTER_TOKEN=fhdw
+      - RESTARTABLE=yes
+    ports:
+      - "8888:8888"
+    volumes:
+      - ./app:/home/jovyan/work
+# volumes:
+#   influxdb_data:

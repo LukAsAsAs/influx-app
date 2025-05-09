@@ -1,0 +1,23 @@
+# Start from a core stack version
+FROM jupyter/scipy-notebook:latest
+
+USER root
+
+# RUN apt-get install -y apt-transport-https
+
+RUN apt-get update --yes && \
+    apt-get install --yes \
+    --no-install-recommends \
+    mysql-client \
+    curl 
+#    && \
+RUN    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+USER ${NB_UID}
+
+# install necessary python modules
+
+RUN pip3 install influxdb-client yfinance jupyter matplotlib ipympl
+
+RUN fix-permissions "${CONDA_DIR}" && \
+    fix-permissions "/home/${NB_USER}"
