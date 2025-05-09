@@ -28,5 +28,8 @@ services:
       - "8888:8888"
     volumes:
       - ./app:/home/jovyan/work
+    command: >
+      start-notebook.sh --ip=0.0.0.0 --port=8888 --NotebookApp.token='fhdw' --NotebookApp.allow_origin='*' --NotebookApp.allow_remote_access=True
+
 # volumes:
 #   influxdb_data:

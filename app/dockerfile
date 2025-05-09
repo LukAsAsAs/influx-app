@@ -21,3 +21,5 @@ RUN pip3 install influxdb-client yfinance jupyter matplotlib ipympl
 
 RUN fix-permissions "${CONDA_DIR}" && \
     fix-permissions "/home/${NB_USER}"
+CMD ["jupyter", "notebook", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--NotebookApp.token='fhdw'", "--NotebookApp.allow_origin='*'", "--NotebookApp.allow_remote_access=True"]
+
